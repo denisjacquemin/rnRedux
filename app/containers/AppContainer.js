@@ -1,13 +1,15 @@
 // @flow
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View
 } from 'react-native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {ActionCreators} from '../actions';
 
-export default class AppContainer extends Component {
+class AppContainer extends Component {
   render () {
     return (
       <View style={styles.container}>
@@ -24,6 +26,12 @@ export default class AppContainer extends Component {
       </View>
   )}
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(() => { return {} }, mapDispatchToProps)(AppContainer);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,6 @@
 // @flow
 
 import * as RecipeActions from './recipes';
-export const actionCreators = Object.assign({},
+export const ActionCreators = Object.assign({},
   RecipeActions,
 );
