@@ -15,13 +15,28 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddelware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+import reducer from './app/reducers'
 
-export default class rnRedux extends Component {
+const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ })
+
+function configureStore(initialState) {
+  const enhancer = compose(
+    applyMiddelware(
+      thunkMiddleware,
+      loggerMiddleware,
+    )
+  );
+  return createStore(reducer, initialState, enhancer)
+}
+
+const store = configureStore({});
+
+class RnRedux extends Component {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to React Native!!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
@@ -34,6 +49,13 @@ export default class rnRedux extends Component {
     );
   }
 }
+
+const App = () => (
+  <Provider store={store}>
+    <RnRedux />
+  </Provider>
+);
+
 
 const styles = StyleSheet.create({
   container: {
@@ -54,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('rnRedux', () => rnRedux);
+AppRegistry.registerComponent('rnRedux', () => App);
