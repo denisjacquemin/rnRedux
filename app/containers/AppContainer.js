@@ -11,21 +11,8 @@ import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
 class AppContainer extends Component {
-  state: {
-    recipeCount: number;
-  };
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      recipeCount: 0
-    }
-  }
-
-  incrementRecipeCount() {
-    this.setState({
-      recipeCount: this.state.recipeCount + 1
-    })
+  addRecipe() {
+    this.props.addRecipe();
   }
 
   render () {
@@ -35,10 +22,10 @@ class AppContainer extends Component {
           Welcome to React Native!!
         </Text>
         <Text>
-          Recipe Count: {this.state.recipeCount}
+          Recipe Count: {this.props.recipeCount.count}
         </Text>
         <Button
-          onPress= { ()=> {this.incrementRecipeCount()} }
+          onPress= { ()=> {this.addRecipe()} }
           title="Add recipe"
           color="#841584"
         />
@@ -57,7 +44,11 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(() => { return {} }, mapDispatchToProps)(AppContainer);
+export default connect((state) => {
+  return {
+    recipeCount: state.recipeCount
+  }
+}, mapDispatchToProps)(AppContainer);
 
 const styles = StyleSheet.create({
   container: {
